@@ -48,7 +48,7 @@ int main() {
  		BUCKET,
  		KEY,
  		TEXT,
- 		Null,
+ 		NULL,
  		creds,
  		0,
  		0
