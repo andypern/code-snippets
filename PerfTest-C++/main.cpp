@@ -6,15 +6,25 @@
 #include <aws/core/auth/AWSCredentialsProvider.h>
 #include <aws/core/client/ClientConfiguration.h>
 
+#include <aws/transfer/S3FileRequest.h>
+#include <aws/transfer/UploadFileRequest.h>
+#include <aws/transfer/DownloadFileRequest.h>
+#include <iostream>
+#include <fstream>
+#include <time.h>
+
+
 using namespace Aws;
 using namespace Aws::S3;
 using namespace Aws::S3::Model;
 using namespace Aws::Auth;
 using namespace Aws::Client;
 
-static const char* KEY = "KEYNAME";
+static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
+static const char* TEXT = "text";
+
 
 int main() {
 	SDKOptions options;
@@ -29,7 +39,19 @@ int main() {
 
     S3Client client = S3Client(creds, conf);
 
+	// Upload a file
+
+	UploadFileRequest uploadFileRequest;
+	uploadFileRequest(
+		KEY,
+		BUCKET,
+		KEY,
+		TEXT
+		);
+
+
 	// Put an object
+
 	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
 
