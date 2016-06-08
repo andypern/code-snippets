@@ -42,12 +42,7 @@ int main() {
 	// Upload a file
 
 	UploadFileRequest uploadFileRequest;
-	uploadFileRequest(
-		KEY,
-		BUCKET,
-		KEY,
-		TEXT
-		);
+	uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
 
 	// Put an object
