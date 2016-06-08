@@ -44,10 +44,10 @@ int main() {
 	//PutObjectRequest putObjectRequest;
  	UploadFileRequest uploadFileRequest = new UploadFileRequest
  	(
- 		const Aws::String KEY,
- 		const Aws::String BUCKET,
- 		const Aws::String KEY,
- 		const Aws::String TEXT,
+ 		Aws::String KEY,
+ 		Aws::String BUCKET,
+ 		Aws::String KEY,
+ 		Aws::String TEXT,
  		NULL,
  		creds,
  		0,
