@@ -47,7 +47,7 @@ int main() {
 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
 
-	// Put an object
+/*	// Put an object
 
 	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding(text);
@@ -63,7 +63,7 @@ int main() {
 			" " << putObjectOutcome.GetError().GetMessage() << std::endl;
 		return 1;
 	}
-
+*/
 	
 
 	return 0;
