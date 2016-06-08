@@ -6,6 +6,7 @@
 #include <aws/core/auth/AWSCredentialsProvider.h>
 #include <aws/core/client/ClientConfiguration.h>
 #include <aws/transfer/UploadFileRequest.h>
+#include <aws/transfer/S3FileRequest.h>
 #include <aws/transfer/DownloadFileRequest.h>
 #include <iostream>
 #include <fstream>
@@ -47,7 +48,7 @@ int main() {
 
 	// Put an object
 
-	PutObjectRequest butObjectRequest;
+	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
 
 	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
