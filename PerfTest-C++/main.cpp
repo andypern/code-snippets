@@ -41,8 +41,8 @@ int main() {
     S3Client client = S3Client(creds, conf);
 
 	// Upload a file
-
-    S3FileRequest s3FileRequest;
+	PutObject putObjectRequest;
+    //S3FileRequest s3FileRequest;
 	//UploadFileRequest uploadFileRequest;
 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
