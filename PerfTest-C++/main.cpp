@@ -5,7 +5,6 @@
 #include <aws/s3/model/GetObjectRequest.h>
 #include <aws/core/auth/AWSCredentialsProvider.h>
 #include <aws/core/client/ClientConfiguration.h>
-#include <aws/transfer/UploadFileRequest.h>
 #include <aws/transfer/S3FileRequest.h>
 #include <aws/transfer/DownloadFileRequest.h>
 #include <iostream>
@@ -42,7 +41,13 @@ int main() {
 
 	// Upload a file
 	//PutObjectRequest putObjectRequest;
-    S3FileRequest s3FileRequest(KEY,BUCKET,KEY,client);
+    S3FileRequest s3FileRequest = new S3FileRequest
+    {
+    	KEY,
+    	BUCKET,
+    	KEY,
+    	client
+    	};
 	//UploadFileRequest uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
