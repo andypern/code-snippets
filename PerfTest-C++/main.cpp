@@ -42,6 +42,7 @@ int main() {
 
 	// Upload a file
 
+    S3FileRequest s3FileRequest;
 	//UploadFileRequest uploadFileRequest;
 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
@@ -49,7 +50,7 @@ int main() {
 	// Put an object
 
 	PutObjectRequest putObjectRequest;
-	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
+	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding(text);
 
 	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
 	*requestStream << CONTENT;
