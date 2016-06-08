@@ -5,8 +5,6 @@
 #include <aws/s3/model/GetObjectRequest.h>
 #include <aws/core/auth/AWSCredentialsProvider.h>
 #include <aws/core/client/ClientConfiguration.h>
-
-
 #include <aws/transfer/UploadFileRequest.h>
 #include <aws/transfer/DownloadFileRequest.h>
 #include <iostream>
