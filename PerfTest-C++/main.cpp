@@ -17,7 +17,7 @@ using namespace Aws::S3;
 using namespace Aws::S3::Model;
 using namespace Aws::Auth;
 using namespace Aws::Client;
-using namespace AWS::Transfer;
+using namespace Aws::Transfer;
 
 
 static const char* KEY = "big.file";
