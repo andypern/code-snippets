@@ -42,7 +42,17 @@ int main() {
 
 	// Upload a file
 	//PutObjectRequest putObjectRequest;
- 	UploadFileRequest uploadFileRequest = new UploadFileRequest;
+ 	UploadFileRequest uploadFileRequest = new UploadFileRequest
+ 	{
+ 		KEY,
+ 		BUCKET,
+ 		KEY,
+ 		TEXT,
+ 		Null,
+ 		creds,
+ 		0,
+ 		0
+ 	};
 
  	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
