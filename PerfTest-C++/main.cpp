@@ -22,6 +22,7 @@ int main() {
 	Aws::InitAPI(options);
 
 	ClientConfiguration conf = ClientConfiguration();
+	conf.scheme = Aws::Http::Scheme::HTTP;
 	conf.endpointOverride = "demo.iggy.bz:7070";
 	conf.verifySSL = false;
 	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
