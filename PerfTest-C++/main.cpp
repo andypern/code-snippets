@@ -41,15 +41,9 @@ int main() {
 
 	// Upload a file
 	//PutObjectRequest putObjectRequest;
-    S3FileRequest s3FileRequest = new S3FileRequest;
- /*   {
-    	KEY,
-    	BUCKET,
-    	KEY,
-    	client
-    	};*/
-	//UploadFileRequest uploadFileRequest(KEY,BUCKET,KEY,TEXT);
-	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
+ 	UploadFileRequest uploadFileRequest = new UploadFileRequest;
+
+ 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
 
 /*	// Put an object
