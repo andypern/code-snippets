@@ -21,10 +21,16 @@ using namespace Aws::Client;
 using namespace Aws::Transfer;
 
 
-static const char* KEY = "big.file";
+/*static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
-static const char* TEXT = "text";
+static const char* TEXT = "text";*/
+
+
+static const Aws::String KEY = "big.file";
+static const Aws::String BUCKET = "apcontainer";
+static const Aws::String CONTENT = "This is a sample content";
+static const Aws::String TEXT = "text";
 
 
 int main() {
@@ -44,10 +50,10 @@ int main() {
 	//PutObjectRequest putObjectRequest;
  	UploadFileRequest uploadFileRequest = new UploadFileRequest
  	(
- 		Aws::String KEY,
- 		Aws::String BUCKET,
- 		Aws::String KEY,
- 		Aws::String TEXT,
+ 		KEY,
+ 		BUCKET,
+ 		KEY,
+ 		TEXT,
  		NULL,
  		creds,
  		0,
