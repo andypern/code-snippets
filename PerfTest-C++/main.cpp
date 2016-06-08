@@ -6,7 +6,7 @@
 #include <aws/core/auth/AWSCredentialsProvider.h>
 #include <aws/core/client/ClientConfiguration.h>
 
-#include <aws/transfer/S3FileRequest.h>
+
 #include <aws/transfer/UploadFileRequest.h>
 #include <aws/transfer/DownloadFileRequest.h>
 #include <iostream>
@@ -19,6 +19,7 @@ using namespace Aws::S3;
 using namespace Aws::S3::Model;
 using namespace Aws::Auth;
 using namespace Aws::Client;
+
 
 static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
