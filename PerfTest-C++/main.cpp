@@ -13,7 +13,7 @@ using namespace Aws::Auth;
 using namespace Aws::Client;
 
 static const char* KEY = "KEYNAME";
-static const char* BUCKET = "BUCKETNAME";
+static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
 
 int main() {
@@ -22,7 +22,7 @@ int main() {
 	Aws::InitAPI(options);
 
 	ClientConfiguration conf = ClientConfiguration();
-	conf.endpointOverride = "IPADDRESS";
+	conf.endpointOverride = "demo.iggy.bz:7070";
 	conf.verifySSL = false;
 	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
 
@@ -44,27 +44,7 @@ int main() {
 		return 1;
 	}
 
-	// Retrieve the object
-	GetObjectRequest getObjectRequest;
-	getObjectRequest = getObjectRequest.WithBucket(BUCKET).WithKey(KEY);
-	auto getObjectOutcome = client.GetObject(getObjectRequest);
-	if(getObjectOutcome.IsSuccess()) {
-		Aws::StringStream contents;
-		contents << getObjectOutcome.GetResult().GetBody().rdbuf();
-
-		std::cout << "Successfully retrieved '" << BUCKET << "/" << KEY << "' ";
-		std::cout << "with contents: '" << contents.str() << "'" << std::endl;
-		if (contents.str().compare(CONTENT) != 0 ){
-			std::cout << "Retrieved content is not as expected" << std::endl;
-			return 1;
-		} else {
-			std::cout << "Retrieved content is as expected" << std::endl;
-		}
-	} else {
-		std::cout << "Error while getting object " << getObjectOutcome.GetError().GetExceptionName() <<
-			" " << getObjectOutcome.GetError().GetMessage() << std::endl;
-		return 1;
-	}
+	
 
 	return 0;
 }
