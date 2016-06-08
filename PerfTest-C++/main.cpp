@@ -37,7 +37,7 @@ int main() {
 	conf.verifySSL = false;
 	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
 
-    const std::shared_ptr<Aws::S3::S3Client> client = S3Client(creds, conf);
+    //const std::shared_ptr<Aws::S3::S3Client> client = S3Client(creds, conf);
 
 	// Upload a file
 	//PutObjectRequest putObjectRequest;
