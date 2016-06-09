@@ -39,7 +39,7 @@ static const char alphanum[] =
 "abcdefghijklmnopqrstuvwxyz";
 
 //int stringLength = sizeof(alphanum);
-int stringLength = 6;
+
 
 char genRandom()
 {
@@ -48,22 +48,23 @@ char genRandom()
 }
 
 */
+int stringLength = 6;
 
-
-char genRandom(char s, const int len) {
-    static const char alphanum[] =
+char genRandom( size_t stringLength )
+{
+    auto randchar = []() -> char
+    {
+        const char charset[] =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
-
-    for (int i = 0; i < len; ++i) {
-        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
-    }
-
-    s[len] = 0;
-    return s
+        const size_t max_index = (sizeof(charset) - 1);
+        return charset[ rand() % max_index ];
+    };
+    std::string str(stringLength,0);
+    std::generate_n( str.begin(), stringLength, randchar );
+    return str;
 }
-
 
 
 int main(int argc,char *argv[]) {
