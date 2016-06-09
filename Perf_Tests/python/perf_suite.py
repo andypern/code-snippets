@@ -186,6 +186,9 @@ def main():
 		print'couldnt open %s : %s' %(inputfile,e)
 		sys.exit(0)
 
+	#figure out how big the file is, we care for later
+	fsize = os.stat(inputfile).st_size
+
 	ts = time.time()
 
 
@@ -205,7 +208,15 @@ def main():
 	print "put %s files into q, being serviced by %s threads" %(filecount,threadcount)
 	queue.join()
 
+	delta = time.time() - ts
 	print('Took {}'.format(time.time() - ts))
+	#
+	#rough calculations
+	#
+	totalBytes = fsize * filecount
+	bytesSec = totalBytes / delta
+	MBytesec = (totalBytes / (1024 * 1024))
+	print "%s MB/sec" %(MBytesec)
 
 
 if __name__ == '__main__':
