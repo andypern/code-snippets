@@ -43,7 +43,7 @@ int stringLength = sizeof(alphanum) - 1;
 const char* genRandom()
 {
 
-    return alphanum[rand() % stringLength];
+    return const char* alphanum[rand() % stringLength];
 }
 
 
