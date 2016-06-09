@@ -61,6 +61,7 @@ char genRandom(char *s, const int len) {
     }
 
     s[len] = 0;
+    return s
 }
 
 
