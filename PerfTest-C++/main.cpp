@@ -27,10 +27,10 @@ static const char* CONTENT = "This is a sample content";
 static const char* TEXT = "text";*/
 
 
-static const Aws::String KEY = "big.file";
-static const Aws::String BUCKET = "apcontainer";
-static const Aws::String CONTENT = "This is a sample content";
-static const Aws::String TEXT = "text";
+Aws::String KEY = "big.file";
+Aws::String BUCKET = "apcontainer";
+Aws::String CONTENT = "This is a sample content";
+Aws::String TEXT = "text";
 
 
 int main() {
