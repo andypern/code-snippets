@@ -56,8 +56,8 @@ int main() {
  		TEXT,
  		NULL,
  		creds,
- 		0,
- 		0
+ 		FALSE,
+ 		FALSE
  	);
 
  	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
