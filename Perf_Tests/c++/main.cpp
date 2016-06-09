@@ -32,7 +32,7 @@ static const char* BUCKET = "apcontainer";
 
 
 //create a random string to seed our object keys with
-
+/*
 
 static const char alphanum[] =
 "0123456789"
@@ -41,13 +41,14 @@ static const char alphanum[] =
 "abcdefghijklmnopqrstuvwxyz";
 
 
-//int stringLength = sizeof(alphanum);
-
+int stringLength = sizeof(alphanum);
+*/
 int stringLength = 6;
 
+/*
 char genRandom()
 {
-
+//note: this only generates a single random char , come back to it @ some point to gen more
 	char prefix = "perf-test-"
     for ( int i = 0; i <stringLength; i++) {
 
@@ -55,8 +56,20 @@ char genRandom()
     }
     return alphanum[rand() % stringLength];
 }
+*/
 
-
+string genRandom(int stringLength)
+{
+   srand(time(0));
+   string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   int pos;
+   while(str.size() != stringLength) {
+    pos = ((rand() % (str.size() - 1)));
+    str.erase (pos, 1);
+   }
+   //char const *stringtopass = str.c_str();
+   return str
+}
 
 
 
