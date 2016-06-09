@@ -99,13 +99,14 @@ int main(int argc,char *argv[]) {
 				return 1;
 			}
 		}
-	}
-	//stop the global clock and print result
-	auto globalEnd = get_time::now();
-	auto globalDiff = globalEnd - globalStart;
-	std::cout <<"Total time was : " <<chrono::duration_cast<ms>(globalDiff).count()<<" ms"<<endl;
+		//stop the global clock and print result
+		auto globalEnd = get_time::now();
+		auto globalDiff = globalEnd - globalStart;
+		std::cout <<"Total time was : " <<chrono::duration_cast<ms>(globalDiff).count()<<" ms"<<endl;
 
-		
+			
+	}
+
 
 	return 0;
 }
