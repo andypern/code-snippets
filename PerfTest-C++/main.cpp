@@ -26,7 +26,7 @@ static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
 static const char* TEXT = "text";*/
 
-
+Aws::String FILENAME = "new.file";
 Aws::String KEY = "big.file";
 Aws::String BUCKET = "apcontainer";
 Aws::String CONTENT = "This is a sample content";
@@ -45,13 +45,14 @@ int main() {
 	conf.verifySSL = false;
 	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
 
-    const std::shared_ptr<Aws::S3::S3Client> client = S3Client(creds, conf);
+    //const std::shared_ptr<Aws::S3::S3Client> 
+    Aws::S3::S3Client client = S3Client(creds, conf);
 
 	// Upload a file
-	//PutObjectRequest putObjectRequest;
+
  	UploadFileRequest uploadFileRequest = new UploadFileRequest
  	(
- 		KEY,
+ 		FILENAME,
  		BUCKET,
  		KEY,
  		TEXT,
@@ -60,7 +61,6 @@ int main() {
  		false
  	);
 
- 	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
 
 
 /*	// Put an object
