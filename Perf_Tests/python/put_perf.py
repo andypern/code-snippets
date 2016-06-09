@@ -2,6 +2,7 @@
 
 import boto3
 import botocore
+from boto3.s3.transfer import S3Transfer, TransferConfig
 
 import xml.etree
 import pprint
