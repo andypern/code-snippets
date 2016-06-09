@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <string>
 
 using namespace std;
 using ns = chrono::nanoseconds;
@@ -31,10 +32,22 @@ static const char* BUCKET = "apcontainer";
 
 
 
-int main() {
+int main(int argc,char *argv[]) {
 	SDKOptions options;
 	options.loggingOptions.logLevel = Aws::Utils::Logging::LogLevel::Info;
 	Aws::InitAPI(options);
+
+	//parse CLI opts
+
+	if(argc == 1){
+		std::cout<<"No args, try again"<<endl;
+		exit(1);
+	}
+	else {
+		const char* ACCESS_KEY_ID = argv[1];
+		const char* ACCESS_KEY_SECRET = argv[2];
+	}
+
 
 	ClientConfiguration conf = ClientConfiguration();
 	conf.scheme = Aws::Http::Scheme::HTTP;
@@ -63,8 +76,9 @@ int main() {
 
  	for ( int x = 0; x < 10; x++) {
  		//make our int a string so we can increment keyname
- 		char *inStr = itoa(x);
- 		string KEY = string(inStr);
+	    std::string str = std::to_string(x);
+        char const *KEY = str.c_str();
+
 
  	
 
