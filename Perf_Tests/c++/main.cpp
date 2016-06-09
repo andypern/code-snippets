@@ -29,42 +29,52 @@ using namespace Aws::Transfer;
 
 static const char* FILENAME = "big.file";
 static const char* BUCKET = "apcontainer";
-/*
+
+
 //create a random string to seed our object keys with
 
+/*
 static const char alphanum[] =
 "0123456789"
 "!@#$%^&*"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "abcdefghijklmnopqrstuvwxyz";
+*/
 
 //int stringLength = sizeof(alphanum);
-int stringLength = 6;
 
+int stringLength = 6;
+/*
 char genRandom()
 {
 
+	char prefix = "perf-test-"
+    for ( int i = 0; i <stringLength; i++) {
+
+
+    }
     return alphanum[rand() % stringLength];
 }
 
+
+
+
 */
 
-
-char genRandom( size_t length )
+char genRandom(int stringLength)
 {
-    auto randchar = []() -> char
-    {
-        const char charset[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-        const size_t max_index = (sizeof(charset) - 1);
-        return charset[ rand() % max_index ];
-    };
-    char str(length,0);
-    std::generate_n( str.begin(), length, randchar );
-    return str;
+   srand(time(0));
+   char str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   int pos;
+   while(str.size() != len) {
+    pos = ((rand() % (str.size() - 1)));
+    str.erase (pos, 1);
+   }
+   return str;
 }
+
+
+
 
 
 int main(int argc,char *argv[]) {
