@@ -271,7 +271,7 @@ def delete_object(bucket,objKey):
 		    Key=objKey
 		)
 
-		printsuccess(method,response)
+		#printsuccess(method,response)
 	except botocore.exceptions.ClientError as e:
 		printfail(method,e.response)
 

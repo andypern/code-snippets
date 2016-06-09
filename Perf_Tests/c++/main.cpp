@@ -32,31 +32,8 @@ static const char* BUCKET = "apcontainer";
 
 
 //create a random string to seed our object keys with
-/*
 
-static const char alphanum[] =
-"0123456789"
-"!@#$%^&*"
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-"abcdefghijklmnopqrstuvwxyz";
-
-
-int stringLength = sizeof(alphanum);
-*/
 size_t stringLength = 6;
-
-/*
-char genRandom()
-{
-//note: this only generates a single random char , come back to it @ some point to gen more
-	char prefix = "perf-test-"
-    for ( int i = 0; i <stringLength; i++) {
-
-
-    }
-    return alphanum[rand() % stringLength];
-}
-*/
 
 string genRandom(size_t stringLength)
 {
@@ -85,14 +62,17 @@ int main(int argc,char *argv[]) {
 		exit(1);
 	}
 	else {
-		const char* ACCESS_KEY_ID = argv[1];
-		const char* ACCESS_KEY_SECRET = argv[2];
+		const char* ENDPOINT = argv[1];
+		const char* ACCESS_KEY_ID = argv[2];
+		const char* ACCESS_KEY_SECRET = argv[3];
+		int NUMFILES = argv[4];
+
 	
 
 
 		ClientConfiguration conf = ClientConfiguration();
 		conf.scheme = Aws::Http::Scheme::HTTP;
-		conf.endpointOverride = "demo.iggy.bz:7070";
+		conf.endpointOverride = ENDPOINT;
 		conf.verifySSL = false;
 		AWSCredentials creds = AWSCredentials(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
 
@@ -102,7 +82,7 @@ int main(int argc,char *argv[]) {
 	    auto globalStart = get_time::now();
 	//loop start
 
-	 	for ( int x = 0; x < 10; x++) {
+	 	for ( int x = 0; x < NUMFILES; x++) {
 	 		//make our int a string so we can increment keyname
 		    std::string str = std::to_string(x);
 		    //prepend random string
