@@ -64,9 +64,9 @@ char genRandom()
 char genRandom(int stringLength)
 {
    srand(time(0));
-   char str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
    int pos;
-   while(str.size() != len) {
+   while(str.size() != stringLength) {
     pos = ((rand() % (str.size() - 1)));
     str.erase (pos, 1);
    }
