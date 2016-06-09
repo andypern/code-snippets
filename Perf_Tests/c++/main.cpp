@@ -32,16 +32,15 @@ static const char* BUCKET = "apcontainer";
 
 //create a random string to seed our object keys with
 
-static const char* alphanum[] =
-[
-	"0123456789"
+static const char alphanum[] =
+"0123456789"
 "!@#$%^&*"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "abcdefghijklmnopqrstuvwxyz";
-]
+
 int stringLength = sizeof(alphanum) - 1;
 
-const char* genRandom()
+char genRandom()
 {
 
     return alphanum[rand() % stringLength];
@@ -85,12 +84,12 @@ int main(int argc,char *argv[]) {
 		    //prepend random string
 
 
-			string total = string(str) + string(genRandom());
+			string total = string(str) + genRandom();
 
 			// to use the concatenation in const char* use
 			char const *KEY = total.c_str();
 	        
-	        //char const *KEY = str.c_str();
+	        
 
 
 	 	
