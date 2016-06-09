@@ -43,7 +43,7 @@ static const char alphanum[] =
 
 int stringLength = sizeof(alphanum);
 */
-int stringLength = 6;
+size_t stringLength = 6;
 
 /*
 char genRandom()
@@ -58,7 +58,7 @@ char genRandom()
 }
 */
 
-string genRandom(int stringLength)
+string genRandom(size_t stringLength)
 {
    srand(time(0));
    string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
