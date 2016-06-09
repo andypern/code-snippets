@@ -117,7 +117,7 @@ int main(int argc,char *argv[]) {
 			//dont need to print each one, maybe add a -debug flag later to see it.
 			//std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ms>(diff).count()<<" ms "<<endl;
 			if(putObjectOutcome.IsSuccess()) {
-				 string successs = 'yes';
+				 string successs = "yes";
 				//dont really need to print each one
 				//std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
 			} else {
