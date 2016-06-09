@@ -29,7 +29,7 @@ using namespace Aws::Transfer;
 
 static const char* FILENAME = "big.file";
 static const char* BUCKET = "apcontainer";
-
+/*
 //create a random string to seed our object keys with
 
 static const char alphanum[] =
@@ -47,6 +47,21 @@ char genRandom()
     return alphanum[rand() % stringLength];
 }
 
+*/
+
+
+char genRandom(char *s, const int len) {
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+
+    for (int i = 0; i < len; ++i) {
+        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+
+    s[len] = 0;
+}
 
 
 
