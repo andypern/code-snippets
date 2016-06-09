@@ -65,7 +65,7 @@ int main(int argc,char *argv[]) {
 		const char* ENDPOINT = argv[1];
 		const char* ACCESS_KEY_ID = argv[2];
 		const char* ACCESS_KEY_SECRET = argv[3];
-		int NUMFILES = argv[4];
+		int NUMFILES = int(argv[4]);
 
 	
 
