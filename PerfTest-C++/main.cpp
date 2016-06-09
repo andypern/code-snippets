@@ -25,7 +25,7 @@ using namespace Aws::Transfer;
 
 
 static const char* FILENAME = "big.file";
-static const char* KEY = "big.file";
+//static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
 //static const char* CONTENT = "This is a sample content";
 
@@ -59,33 +59,42 @@ int main() {
 */
 
 
+//loop start
 
-	// Put an object
-	//start our timer
-	auto start = get_time::now();
+ 	for ( int x = 0; x < 10; x++) {
+ 		//make our int a string so we can increment keyname
+ 		char *inStr = itoa(x);
+ 		string KEY = string(inStr);
+
+ 	
+
+		// Put an object
+		//start our timer
+		auto start = get_time::now();
 
 
-	PutObjectRequest putObjectRequest;
-	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
+		PutObjectRequest putObjectRequest;
+		putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
 
-	Aws::IFStream inputFile(FILENAME);
-	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
-	
-	*requestStream << inputFile.rdbuf();
+		Aws::IFStream inputFile(FILENAME);
+		auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
+		
+		*requestStream << inputFile.rdbuf();
 
-	//*requestStream << CONTENT;
-	putObjectRequest.SetBody(requestStream);
-	auto putObjectOutcome = client.PutObject(putObjectRequest);
-	//end our timer
-	auto end = get_time::now();
-	auto diff = end - start;
-	std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
-	if(putObjectOutcome.IsSuccess()) {
-		std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
-	} else {
-		std::cout << "Error while putting Object " << putObjectOutcome.GetError().GetExceptionName() << 
-			" " << putObjectOutcome.GetError().GetMessage() << std::endl;
-		return 1;
+		//*requestStream << CONTENT;
+		putObjectRequest.SetBody(requestStream);
+		auto putObjectOutcome = client.PutObject(putObjectRequest);
+		//end our timer
+		auto end = get_time::now();
+		auto diff = end - start;
+		std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
+		if(putObjectOutcome.IsSuccess()) {
+			std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
+		} else {
+			std::cout << "Error while putting Object " << putObjectOutcome.GetError().GetExceptionName() << 
+				" " << putObjectOutcome.GetError().GetMessage() << std::endl;
+			return 1;
+		}
 	}
 
 	
