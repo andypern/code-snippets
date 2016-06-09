@@ -46,72 +46,73 @@ int main(int argc,char *argv[]) {
 	else {
 		const char* ACCESS_KEY_ID = argv[1];
 		const char* ACCESS_KEY_SECRET = argv[2];
-	}
+	
 
 
-	ClientConfiguration conf = ClientConfiguration();
-	conf.scheme = Aws::Http::Scheme::HTTP;
-	conf.endpointOverride = "demo.iggy.bz:7070";
-	conf.verifySSL = false;
-	AWSCredentials creds = AWSCredentials(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+		ClientConfiguration conf = ClientConfiguration();
+		conf.scheme = Aws::Http::Scheme::HTTP;
+		conf.endpointOverride = "demo.iggy.bz:7070";
+		conf.verifySSL = false;
+		AWSCredentials creds = AWSCredentials(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
 
-    S3Client client = S3Client(creds, conf);
+	    S3Client client = S3Client(creds, conf);
 
-	// Upload a file
-/*
- 	UploadFileRequest uploadFileRequest = new UploadFileRequest
- 	(
- 		FILENAME,
- 		BUCKET,
- 		KEY,
- 		TEXT,
- 		client,
- 		false,
- 		false
- 	);
-*/
-
-
-//loop start
-
- 	for ( int x = 0; x < 10; x++) {
- 		//make our int a string so we can increment keyname
-	    std::string str = std::to_string(x);
-        char const *KEY = str.c_str();
+		// Upload a file
+	/*
+	 	UploadFileRequest uploadFileRequest = new UploadFileRequest
+	 	(
+	 		FILENAME,
+	 		BUCKET,
+	 		KEY,
+	 		TEXT,
+	 		client,
+	 		false,
+	 		false
+	 	);
+	*/
 
 
- 	
+	//loop start
 
-		// Put an object
-		//start our timer
-		auto start = get_time::now();
+	 	for ( int x = 0; x < 10; x++) {
+	 		//make our int a string so we can increment keyname
+		    std::string str = std::to_string(x);
+	        char const *KEY = str.c_str();
 
 
-		PutObjectRequest putObjectRequest;
-		putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
+	 	
 
-		Aws::IFStream inputFile(FILENAME);
-		auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
-		
-		*requestStream << inputFile.rdbuf();
+			// Put an object
+			//start our timer
+			auto start = get_time::now();
 
-		//*requestStream << CONTENT;
-		putObjectRequest.SetBody(requestStream);
-		auto putObjectOutcome = client.PutObject(putObjectRequest);
-		//end our timer
-		auto end = get_time::now();
-		auto diff = end - start;
-		std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
-		if(putObjectOutcome.IsSuccess()) {
-			std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
-		} else {
-			std::cout << "Error while putting Object " << putObjectOutcome.GetError().GetExceptionName() << 
-				" " << putObjectOutcome.GetError().GetMessage() << std::endl;
-			return 1;
+
+			PutObjectRequest putObjectRequest;
+			putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
+
+			Aws::IFStream inputFile(FILENAME);
+			auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
+			
+			*requestStream << inputFile.rdbuf();
+
+			//*requestStream << CONTENT;
+			putObjectRequest.SetBody(requestStream);
+			auto putObjectOutcome = client.PutObject(putObjectRequest);
+			//end our timer
+			auto end = get_time::now();
+			auto diff = end - start;
+			std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
+			if(putObjectOutcome.IsSuccess()) {
+				std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
+			} else {
+				std::cout << "Error while putting Object " << putObjectOutcome.GetError().GetExceptionName() << 
+					" " << putObjectOutcome.GetError().GetMessage() << std::endl;
+				return 1;
+			}
 		}
 	}
 
-	
+		
 
 	return 0;
 }
