@@ -13,7 +13,7 @@
 #include <chrono>
 
 using namespace std;
-use ns = chrono::nanoseconds;
+using ns = chrono::nanoseconds;
 using get_time = chrono::steady_clock;
 
 using namespace Aws;
