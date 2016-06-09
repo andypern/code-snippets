@@ -21,17 +21,11 @@ using namespace Aws::Client;
 using namespace Aws::Transfer;
 
 
-/*static const char* KEY = "big.file";
+static const char* FILENAME = "big.file";
+static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
-static const char* TEXT = "text";*/
-
-Aws::String FILENAME = "new.file";
-Aws::String KEY = "big.file";
-Aws::String BUCKET = "apcontainer";
-Aws::String CONTENT = "This is a sample content";
-Aws::String TEXT = "text";
-
+static const char* TEXT = "text";
 
 
 int main() {
@@ -68,7 +62,7 @@ int main() {
 	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
 
-	Aws::IFStream inputFile("filename");
+	Aws::IFStream inputFile(FILENAME);
 	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
 	
 	*requestStream << inputFile.rdbuf();
