@@ -215,7 +215,7 @@ def main():
 	#
 	totalBytes = fsize * filecount
 	bytesSec = totalBytes / delta
-	MBytesec = totalBytes / (1024 * 1024)
+	MBytesec = totalBytes / (1024 * 1024) / delta
 	print "%s MB/sec" %(MBytesec)
 
 
