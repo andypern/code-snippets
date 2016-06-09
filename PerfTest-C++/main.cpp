@@ -44,8 +44,8 @@ int main(int argc,char *argv[]) {
 		exit(1);
 	}
 	else {
-		static const char* ACCESS_KEY_ID = argv[1];
-		static const char* ACCESS_KEY_SECRET = argv[2];
+		const char* ACCESS_KEY_ID = argv[1];
+		const char* ACCESS_KEY_SECRET = argv[2];
 	}
 
 
@@ -53,7 +53,7 @@ int main(int argc,char *argv[]) {
 	conf.scheme = Aws::Http::Scheme::HTTP;
 	conf.endpointOverride = "demo.iggy.bz:7070";
 	conf.verifySSL = false;
-	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
+	AWSCredentials creds = AWSCredentials(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
 
     S3Client client = S3Client(creds, conf);
 
