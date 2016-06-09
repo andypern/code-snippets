@@ -32,7 +32,7 @@ static const char* BUCKET = "apcontainer";
 
 //create a random string to seed our object keys with
 
-static const char alphanum[] =
+static const char* alphanum[] =
 "0123456789"
 "!@#$%^&*"
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -43,7 +43,7 @@ int stringLength = sizeof(alphanum) - 1;
 const char* genRandom()
 {
 
-    return const char* alphanum[rand() % stringLength];
+    return alphanum[rand() % stringLength];
 }
 
 
