@@ -55,9 +55,9 @@ max_retries = 5
 #
 
 try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:p:a:s:b:c:dlr:v", 
+        opts, args = getopt.getopt(sys.argv[1:], "h:p:a:s:b:c:dr:v", 
         	["host=","port=","access_key=","secret_key=","bucket=","count=",
-        	"delete","large","retries=","verbose"])
+        	"delete","verbose"])
 except getopt.GetoptError as err:
         # print help information and exit:
         print(err) # will print something like "option -a not recognized"
@@ -81,10 +81,6 @@ for opt, arg in opts:
 		filecount = int(arg)
 	if opt in ('-d','--delete'):
 		delete_only = True
-	if opt in ('-l','--large'):
-		largeFiles = True
-	if opt in ('-r','--retries'):
-		max_retries = int(arg)
 	if opt in ('-v', '--verbose'):
 		print_verbose = True
 
@@ -97,11 +93,22 @@ for opt, arg in opts:
 #
 
 if len(opts) < 5:
-	print "syntax is `./s3_put_test.py -h <hostname> -p 80 -a <access_key> -s <secret_key> -b bucket [-c filecount] [--delete] [--large] [-r retries] [--verbose]`"
+	print "syntax is `./s3_put_test.py -h <hostname> -p 80 -a <access_key> -s <secret_key> -b bucket [-c filecount] [--delete] [--verbose]`"
 	sys.exit(1)
 
 
 
+
+#
+#setup transfer config to workaround multipart
+#
+
+myconfig = TransferConfig(
+
+    multipart_threshold=9999999999999999, # workaround for 'disable' auto multipart upload
+    max_concurrency=10,
+    num_download_attempts=10,
+)
 
 
 
@@ -193,51 +200,6 @@ def list_objects(bucket, fileprefix):
 
 
 
-def put_object_lots(bucket, filecount, fileprefix):
-	method = 'put_object_lots'
-	global_start_time = time.time()
-	for i in range(filecount):
-		local_start_time = time.time()
-		nowtime = time.strftime("%Y-%m-%d %H:%M:%S")
-		objKey = fileprefix + '-' + str(i) + '-' + (''.join(choice(ascii_uppercase) for i in range(6))) + '.txt'
-		try:
-			response = s3client.put_object(
-			Body=b'xyz',
-			Bucket=bucket,
-			Key=objKey)
-			#printsuccess(method,response)
-			local_elapsed_time = time.time() - local_start_time
-			print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
-		except botocore.exceptions.ClientError as e:
-			printfail(method,e.response)
-		except botocore.vendored.requests.exceptions.ReadTimeout as e:
-			#if we get a timeout, retry until we hit max_retries
-
-			print "got a timeout for %s: %s" %(objKey,e)
-			local_elapsed_time = time.time() - local_start_time
-			print "this timeout took %s , initiating retry" %(local_elapsed_time)
-
-			for attempt in range(max_retries):
-				print "attempt #%s of %s" %(attempt + 1,max_retries)
-				try:
-					response = s3client.put_object(
-					Body=b'xyz',
-					Bucket=bucket,
-					Key=objKey)
-					#printsuccess(method,response)
-					local_elapsed_time = time.time() - local_start_time
-					print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
-					break
-				except botocore.vendored.requests.exceptions.ReadTimeout as e:
-					if attempt < (max_retries - 1):
-						print "attempt %s failed, %s remaining" %(attempt + 1, max_retries - attempt)
-						continue
-					else:
-						print "all attempts failed..aborting this transfer"
-						break
-
-	global_elapsed_time = time.time() - global_start_time
-	print "Done making %s files, it took %s" %(filecount, global_elapsed_time)
 
 
 #
@@ -245,6 +207,8 @@ def put_object_lots(bucket, filecount, fileprefix):
 #
 
 def upload_file(bucket, filecount, fileprefix):
+	transfer = S3Transfer(s3client,myconfig)
+
 	method = 'upload_file'
 	global_start_time = time.time()
 	for i in range(filecount):
@@ -253,7 +217,7 @@ def upload_file(bucket, filecount, fileprefix):
 		objKey = fileprefix + '-' + str(i) + '-' + (''.join(choice(ascii_uppercase) for i in range(6))) + '.2mb'
 
 		try:
-			response = s3client.upload_file(
+			response = transfer.upload_file(
 				'/mnt/data/createdata/cpp/andyp/big.file', 
 				bucket,
 				objKey
@@ -273,8 +237,8 @@ def upload_file(bucket, filecount, fileprefix):
 			for attempt in range(max_retries):
 				print "attempt #%s of %s" %(attempt + 1,max_retries)
 				try:
-					response =  s3client.upload_file(
-						'/tmp/2mb.file', 
+					response =  transfer.upload_file(
+						'/mnt/data/createdata/cpp/andyp/big.file', 
 						bucket,
 						objKey
 						)
@@ -355,11 +319,8 @@ else:
 
 	print "putting %s files to %s"  %(filecount, bucket)
 
-	if largeFiles == True:
-		upload_file(bucket, filecount, fileprefix)
+	upload_file(bucket, filecount, fileprefix)
 
-	else:	
-		put_object_lots(bucket, filecount, fileprefix)
 
 	print "finished putting %s files" %(filecount)
 
