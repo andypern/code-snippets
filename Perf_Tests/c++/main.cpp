@@ -38,7 +38,8 @@ static const char alphanum[] =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "abcdefghijklmnopqrstuvwxyz";
 
-int stringLength = sizeof(alphanum);
+//int stringLength = sizeof(alphanum);
+int stringLength = 6;
 
 char genRandom()
 {
