@@ -68,7 +68,7 @@ string genRandom(int stringLength)
     str.erase (pos, 1);
    }
    //char const *stringtopass = str.c_str();
-   return str
+   return str;
 }
 
 
@@ -108,7 +108,7 @@ int main(int argc,char *argv[]) {
 		    //prepend random string
 
 
-			string total = string(str) + genRandom();
+			string total = string(str) + genRandom(stringLength);
 
 			// to use the concatenation in const char* use
 			char const *KEY = total.c_str();
