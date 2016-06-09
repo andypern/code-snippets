@@ -44,8 +44,8 @@ int main(int argc,char *argv[]) {
 		exit(1);
 	}
 	else {
-		const char* ACCESS_KEY_ID = argv[1];
-		const char* ACCESS_KEY_SECRET = argv[2];
+		static const char* ACCESS_KEY_ID = argv[1];
+		static const char* ACCESS_KEY_SECRET = argv[2];
 	}
 
 
