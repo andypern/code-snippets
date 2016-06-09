@@ -61,7 +61,7 @@ char genRandom( size_t stringLength )
         const size_t max_index = (sizeof(charset) - 1);
         return charset[ rand() % max_index ];
     };
-    std::string str(stringLength,0);
+    char (stringLength,0);
     std::generate_n( str.begin(), stringLength, randchar );
     return str;
 }
