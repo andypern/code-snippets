@@ -66,12 +66,13 @@ int main() {
 	// Put an object
 
 	PutObjectRequest putObjectRequest;
-	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding(text);
+	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
 
 	Aws::IFStream inputFile("filename");
+	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
+	
 	*requestStream << inputFile.rdbuf();
 
-	//auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
 	//*requestStream << CONTENT;
 	putObjectRequest.SetBody(requestStream);
 	auto putObjectOutcome = client.PutObject(putObjectRequest);
