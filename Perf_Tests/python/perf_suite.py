@@ -20,12 +20,26 @@ import pprint
 from datetime import datetime
 
 
+
+##########
+#TODO:
+# * make more generic (allow for reads, writes, lists, metadata ops)
+# * build in a ramper
+# * use /dev/zero or similar instead of a file
+# 
+
+
 #####
+#some variables/defaults
+#
 print_verbose = False
 ramp = False
 filecount = 20
 threadcount = 5
-
+fileprefix = "file-"
+#
+#
+####
 
 
 try:
@@ -92,7 +106,7 @@ class UploadWorker(Thread):
 		transfer = S3Transfer(client, config)
 
 		while True:
-			# Get the work from the queu and expand the tuple
+			# Get the work from the queue
 			objKey = self.queue.get()
 			#print "pulled %s from queue" %(objKey)
 			upload_file(objKey,bucket,transfer)
@@ -162,6 +176,41 @@ def upload_file(objKey, bucket, transfer):
 					print "all attempts failed..aborting this transfer"
 					break
 
+def delete_object(bucket,objKey):
+	method = 'delete_object'
+	
+	try:
+		response = s3client.delete_object(
+		    Bucket=bucket,
+		    Key=objKey
+		)
+
+		printsuccess(method,response)
+	except botocore.exceptions.ClientError as e:
+		printfail(method,e.response)
+
+
+
+def list_objects(bucket, fileprefix):		 
+	#
+	#note that you can only get back up to 1000 keys at a time
+	# so using pagination to try and get them all.
+	#
+	try:
+		paginator = s3client.get_paginator('list_objects')
+
+		pages = paginator.paginate(
+			Bucket=bucket,
+			Delimiter='/',
+			Prefix=fileprefix
+		)
+
+		return pages
+	except botocore.exceptions.ClientError as e:
+		printfail(method,e.response)
+
+
+
 
 
 def printfail(method,response):
@@ -189,6 +238,8 @@ def main():
 		print'couldnt open %s : %s' %(inputfile,e)
 		sys.exit(0)
 
+
+
 	#figure out how big the file is, we care for later
 	fsize = os.stat(inputfile).st_size
 
@@ -205,14 +256,15 @@ def main():
 
 
 	for f in range(filecount):
-		objKey = 'file-' + str(f) + '-' + (''.join(choice(ascii_uppercase) for i in range(6)))
+		objKey = fileprefix + str(f) + '-' + (''.join(choice(ascii_uppercase) for i in range(6)))
 		queue.put((objKey))
 
 	print "put %s files into q, being serviced by %s threads" %(filecount,threadcount)
 	queue.join()
 
 	delta = time.time() - ts
-	print('Took {}'.format(time.time() - ts))
+	print('Took {}'.format(delta))
+
 	#
 	#rough calculations
 	#
@@ -220,6 +272,22 @@ def main():
 	bytesSec = totalBytes / delta
 	MBytesec = totalBytes / (1024 * 1024) / delta
 	print "%s MB/sec" %(MBytesec)
+
+	#now delete
+	#
+	#get a list of objects in pages, then blow them away
+	#
+
+	objList =  list_objects(bucket, fileprefix)
+
+	count = 0
+	for page in objList:
+			for key in page['Contents']:
+				delete_object(bucket,key['Key'])
+				count += 1
+
+
+	print "deleted %s" %(count)
 
 
 if __name__ == '__main__':
