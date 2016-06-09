@@ -8,10 +8,11 @@ from sys import stdin
 
 import logging
 from threading import Thread
-from queue import Queue
+import Queue
 import time
 import boto3
 import os
+import getopt
 from string import ascii_uppercase
 from random import choice
 import xml.etree
