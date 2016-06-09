@@ -13,8 +13,10 @@
 #include <chrono>
 #include <string>
 
+
+
 using namespace std;
-using ns = chrono::nanoseconds;
+using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
 using namespace Aws;
@@ -101,7 +103,7 @@ int main(int argc,char *argv[]) {
 			//end our timer
 			auto end = get_time::now();
 			auto diff = end - start;
-			std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
+			std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ms>(diff).count()<<" ms "<<endl;
 			if(putObjectOutcome.IsSuccess()) {
 				std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
 			} else {

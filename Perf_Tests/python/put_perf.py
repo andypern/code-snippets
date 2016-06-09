@@ -56,8 +56,8 @@ max_retries = 5
 #
 
 try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:p:a:s:b:c:dr:v", 
-        	["host=","port=","access_key=","secret_key=","bucket=","count=",
+        opts, args = getopt.getopt(sys.argv[1:], "h:p:a:s:b:i:c:dr:v", 
+        	["host=","port=","access_key=","secret_key=","bucket=","inputfile=","count=",
         	"delete","verbose"])
 except getopt.GetoptError as err:
         # print help information and exit:
@@ -78,6 +78,8 @@ for opt, arg in opts:
 		secret_key = arg
 	if opt in ('-b','--bucket'):
 		bucket = arg
+	if opt in ('-i','--inputfile'):
+		inputfile = arg
 	if opt in ('-c','--count'):
 		filecount = int(arg)
 	if opt in ('-d','--delete'):
@@ -94,7 +96,7 @@ for opt, arg in opts:
 #
 
 if len(opts) < 5:
-	print "syntax is `./s3_put_test.py -h <hostname> -p 80 -a <access_key> -s <secret_key> -b bucket [-c filecount] [--delete] [--verbose]`"
+	print "syntax is `./s3_put_test.py -h <hostname> -p 80 -a <access_key> -s <secret_key> -b bucket -i inputfile [-c filecount] [--delete] [--verbose]`"
 	sys.exit(1)
 
 
@@ -219,7 +221,7 @@ def upload_file(bucket, filecount, fileprefix):
 
 		try:
 			response = transfer.upload_file(
-				'/mnt/data/createdata/cpp/andyp/big.file', 
+				inputfile, 
 				bucket,
 				objKey
 				)
@@ -239,7 +241,7 @@ def upload_file(bucket, filecount, fileprefix):
 				print "attempt #%s of %s" %(attempt + 1,max_retries)
 				try:
 					response =  transfer.upload_file(
-						'/mnt/data/createdata/cpp/andyp/big.file', 
+						inputfile, 
 						bucket,
 						objKey
 						)
