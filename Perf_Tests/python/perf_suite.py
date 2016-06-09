@@ -181,7 +181,7 @@ def main():
 
 	try:
 		fd = open (inputfile, 'r')
-		file.close()
+		fd.close()
 	except IOError as e:
 		print'couldnt open %s : %s' %(inputfile,e)
 		sys.exit(0)
