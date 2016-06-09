@@ -177,6 +177,15 @@ def printfail(method,response):
 
 def main(): 
 
+	#check to make sure input file exists
+
+	try:
+		fd = open (inputfile, 'r')
+		file.close()
+	except:
+		print'couldnt open %s' %(inputfile)
+		sys.exit(0)
+
 	ts = time.time()
 
 
