@@ -32,6 +32,8 @@ Aws::String BUCKET = "apcontainer";
 Aws::String CONTENT = "This is a sample content";
 Aws::String TEXT = "text";
 
+bool bla = false;
+bool hah = false;
 
 int main() {
 	SDKOptions options;
@@ -56,8 +58,8 @@ int main() {
  		TEXT,
  		NULL,
  		creds,
- 		FALSE,
- 		FALSE
+ 		bla,
+ 		hah
  	);
 
  	//uploadFileRequest(KEY,BUCKET,KEY,TEXT);
