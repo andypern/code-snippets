@@ -10,8 +10,11 @@
 #include <aws/transfer/DownloadFileRequest.h>
 #include <iostream>
 #include <fstream>
-#include <time.h>
+#include <chrono>
 
+using namespace std;
+use ns = chrono::nanoseconds;
+using get_time = chrono::steady_clock;
 
 using namespace Aws;
 using namespace Aws::S3;
@@ -25,7 +28,7 @@ static const char* FILENAME = "big.file";
 static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
 static const char* CONTENT = "This is a sample content";
-static const char* TEXT = "text";
+
 
 
 int main() {
@@ -58,6 +61,9 @@ int main() {
 
 
 	// Put an object
+	//start our timer
+	auto start = get_time::now();
+
 
 	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
@@ -70,6 +76,10 @@ int main() {
 	//*requestStream << CONTENT;
 	putObjectRequest.SetBody(requestStream);
 	auto putObjectOutcome = client.PutObject(putObjectRequest);
+	//end our timer
+	auto end = get_time::now();
+	auto diff = end - start;
+	std::cout <<"Elapsed: " << chrono::duration_cast<ns>(diff).count()<<""
 	if(putObjectOutcome.IsSuccess()) {
 		std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
 	} else {
