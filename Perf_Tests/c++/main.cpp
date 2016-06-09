@@ -80,7 +80,7 @@ int main(int argc,char *argv[]) {
 
 	//start the global clock
 	    auto globalStart = get_time::now();
-	//loop start
+	//loop until we hit NUMFILES
 
 	 	for ( int x = 0; x < NUMFILES; x++) {
 	 		//make our int a string so we can increment keyname
@@ -93,15 +93,12 @@ int main(int argc,char *argv[]) {
 			// to use the concatenation in const char* use
 			char const *KEY = total.c_str();
 	        
-	        
 
-
-	 	
-
-			// Put an object
+			
 			//start our timer
 			auto start = get_time::now();
 
+			//put object
 
 			PutObjectRequest putObjectRequest;
 			putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding("text");
@@ -117,9 +114,12 @@ int main(int argc,char *argv[]) {
 			//end our timer
 			auto end = get_time::now();
 			auto diff = end - start;
-			std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ms>(diff).count()<<" ms "<<endl;
+			//dont need to print each one, maybe add a -debug flag later to see it.
+			//std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ms>(diff).count()<<" ms "<<endl;
 			if(putObjectOutcome.IsSuccess()) {
-				std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
+				 string successs = 'yes';
+				//dont really need to print each one
+				//std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
 			} else {
 				std::cout << "Error while putting Object " << putObjectOutcome.GetError().GetExceptionName() << 
 					" " << putObjectOutcome.GetError().GetMessage() << std::endl;
