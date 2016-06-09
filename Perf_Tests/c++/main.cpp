@@ -59,21 +59,8 @@ int main(int argc,char *argv[]) {
 
 	    S3Client client = S3Client(creds, conf);
 
-		// Upload a file
-	/*
-	 	UploadFileRequest uploadFileRequest = new UploadFileRequest
-	 	(
-	 		FILENAME,
-	 		BUCKET,
-	 		KEY,
-	 		TEXT,
-	 		client,
-	 		false,
-	 		false
-	 	);
-	*/
-
-
+	//start the global clock
+	    auto globalStart = get_time::now();
 	//loop start
 
 	 	for ( int x = 0; x < 10; x++) {
@@ -113,6 +100,10 @@ int main(int argc,char *argv[]) {
 			}
 		}
 	}
+	//stop the global clock and print result
+	auto globalEnd = get_time::now();
+	auto globalDiff = globalEnd - globalStart;
+	std::cout <<"Total time was : " <<chrono::duration_cast<ms>(globalDiff).count()<<" ms"<<endl;
 
 		
 
