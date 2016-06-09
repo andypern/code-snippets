@@ -71,6 +71,7 @@ int main(int argc,char *argv[]) {
 
 
 		ClientConfiguration conf = ClientConfiguration();
+		conf.requestTimeoutMs = 30000;
 		conf.scheme = Aws::Http::Scheme::HTTP;
 		conf.endpointOverride = ENDPOINT;
 		conf.verifySSL = false;

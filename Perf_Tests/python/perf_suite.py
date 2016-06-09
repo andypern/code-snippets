@@ -4,13 +4,13 @@ import boto3
 import botocore
 from boto3.s3.transfer import S3Transfer, TransferConfig
 
-from sys import stdin
 
 import logging
 from threading import Thread
 import Queue
 import time
-import boto3
+
+import sys
 import os
 import getopt
 from string import ascii_uppercase
@@ -22,13 +22,15 @@ from datetime import datetime
 
 #####
 print_verbose = False
+filecount = 20
+threadcount = 5
 
 
 
 try:
-        opts, args = getopt.getopt(sys.argv[1:], "e:a:s:b:i:c:dv", 
-        	["endpoint","access_key=","secret_key=","bucket=","inputfile=","count=",
-        	"delete","verbose"])
+        opts, args = getopt.getopt(sys.argv[1:], "e:a:s:b:i:f:t:dv", 
+        	["endpoint","access_key=","secret_key=","bucket=","inputfile=","filecount=",
+        	"threadcount=","delete","verbose"])
 except getopt.GetoptError as err:
         # print help information and exit:
         print(err) # will print something like "option -a not recognized"
@@ -48,12 +50,22 @@ for opt, arg in opts:
 		bucket = arg
 	if opt in ('-i','--inputfile'):
 		inputfile = arg
-	if opt in ('-c','--count'):
+	if opt in ('-f','--filecount'):
 		filecount = int(arg)
+	if opt in ('-t','--threadcount'):
+		threadcount = int(arg)
 	if opt in ('-d','--delete'):
 		delete_only = True
 	if opt in ('-v', '--verbose'):
 		print_verbose = True
+
+#
+#we require 5 arg's, and 2 are optional.
+#
+
+if len(opts) < 5:
+	print "syntax is `./perf_suite.py -e <endpoint> -a <access_key> -s <secret_key> -b bucket -i inputfile [-c filecount] [--delete] [--verbose]`"
+	sys.exit(1)
 
 
 
@@ -79,6 +91,7 @@ class UploadWorker(Thread):
 		while True:
 			# Get the work from the queu and expand the tuple
 			objKey = self.queue.get()
+			#print "pulled %s from queue" %(objKey)
 			upload_file(objKey,bucket,transfer)
 			self.queue.task_done()
 
@@ -107,14 +120,16 @@ def make_session():
 
 def upload_file(objKey, bucket, transfer):
 
-	try:
+	#print "%s in upload_file" %(objKey)
+	local_start_time = time.time()
+	try:	
 		response = transfer.upload_file(
 			inputfile, 
 			bucket,
 			objKey
 			)
 		local_elapsed_time = time.time() - local_start_time
-		print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
+		#print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
 	except botocore.exceptions.ClientError as e:
 		printfail(method,e.response)
 	except (botocore.vendored.requests.exceptions.ConnectionError, 
@@ -133,7 +148,7 @@ def upload_file(objKey, bucket, transfer):
 					objKey
 					)
 				local_elapsed_time = time.time() - local_start_time
-				print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
+				#print "at %s made file # %s in %s" %(nowtime, i, local_elapsed_time)
 				break
 			except (botocore.vendored.requests.exceptions.ConnectionError, 
 					botocore.vendored.requests.exceptions.ReadTimeout) as e:
@@ -161,12 +176,13 @@ def printfail(method,response):
 
 
 def main(): 
+
 	ts = time.time()
 
 
-	queue = Queue()
+	queue = Queue.Queue()
 
-	for x in range(2):
+	for x in range(threadcount):
 		worker = UploadWorker(queue)
 		#Setting the daemon to True will let the main thread exit even though the worker is not done
 		worker.daemon = True
@@ -177,7 +193,7 @@ def main():
 		objKey = 'file-' + str(f) + '-' + (''.join(choice(ascii_uppercase) for i in range(6)))
 		queue.put((objKey))
 
-
+	print "put %s files into q, being serviced by %s threads" %(filecount,threadcount)
 	queue.join()
 
 	print('Took {}'.format(time.time() - ts))
