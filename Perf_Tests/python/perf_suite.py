@@ -22,6 +22,7 @@ from datetime import datetime
 
 #####
 print_verbose = False
+ramp = False
 filecount = 20
 threadcount = 5
 
@@ -30,7 +31,7 @@ threadcount = 5
 try:
         opts, args = getopt.getopt(sys.argv[1:], "e:a:s:b:i:f:t:dv", 
         	["endpoint","access_key=","secret_key=","bucket=","inputfile=","filecount=",
-        	"threadcount=","delete","verbose"])
+        	"threadcount=","ramp","delete","verbose"])
 except getopt.GetoptError as err:
         # print help information and exit:
         print(err) # will print something like "option -a not recognized"
@@ -54,6 +55,8 @@ for opt, arg in opts:
 		filecount = int(arg)
 	if opt in ('-t','--threadcount'):
 		threadcount = int(arg)
+	if opt in ('-r','--ramp'):
+		ramp = True
 	if opt in ('-d','--delete'):
 		delete_only = True
 	if opt in ('-v', '--verbose'):
@@ -64,7 +67,7 @@ for opt, arg in opts:
 #
 
 if len(opts) < 5:
-	print "syntax is `./perf_suite.py -e <endpoint> -a <access_key> -s <secret_key> -b bucket -i inputfile [-c filecount] [--delete] [--verbose]`"
+	print "syntax is `./perf_suite.py -e <endpoint> -a <access_key> -s <secret_key> -b bucket -i inputfile [-c filecount] [--ramp] [--delete] [--verbose]`"
 	sys.exit(1)
 
 
