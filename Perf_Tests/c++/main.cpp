@@ -84,10 +84,10 @@ int main(int argc,char *argv[]) {
 		    //prepend random string
 
 
-			string KEY = string(str) + string(genRandum());
+			string total = string(str) + string(genRandum());
 
 			// to use the concatenation in const char* use
-			KEY.c_str()
+			char const *KEY = total.c_str()
 	        
 	        //char const *KEY = str.c_str();
 
