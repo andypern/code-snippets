@@ -45,11 +45,10 @@ int main() {
 	conf.verifySSL = false;
 	AWSCredentials creds = AWSCredentials("ACCESS_KEY_ID", "ACCESS_KEY_SECRET");
 
-    //const std::shared_ptr<Aws::S3::S3Client> 
-    Aws::S3::S3Client client = S3Client(creds, conf);
+    S3Client client = S3Client(creds, conf);
 
 	// Upload a file
-
+/*
  	UploadFileRequest uploadFileRequest = new UploadFileRequest
  	(
  		FILENAME,
@@ -60,16 +59,20 @@ int main() {
  		false,
  		false
  	);
+*/
 
 
 
-/*	// Put an object
+	// Put an object
 
 	PutObjectRequest putObjectRequest;
 	putObjectRequest.WithKey(KEY).WithBucket(BUCKET).WithContentEncoding(text);
 
-	auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
-	*requestStream << CONTENT;
+	Aws::IFStream inputFile(FILENAME);
+	*requestStream << inputFile.rdbuf();
+
+	//auto requestStream = Aws::MakeShared<Aws::StringStream>("s3-sample");
+	//*requestStream << CONTENT;
 	putObjectRequest.SetBody(requestStream);
 	auto putObjectOutcome = client.PutObject(putObjectRequest);
 	if(putObjectOutcome.IsSuccess()) {
@@ -79,7 +82,7 @@ int main() {
 			" " << putObjectOutcome.GetError().GetMessage() << std::endl;
 		return 1;
 	}
-*/
+
 	
 
 	return 0;
