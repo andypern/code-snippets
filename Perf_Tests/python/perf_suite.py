@@ -185,7 +185,6 @@ def delete_object(s3client,bucket,objKey):
 		    Key=objKey
 		)
 
-		printsuccess(method,response)
 	except botocore.exceptions.ClientError as e:
 		printfail(method,e.response)
 
