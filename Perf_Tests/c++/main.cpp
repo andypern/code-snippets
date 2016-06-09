@@ -28,9 +28,24 @@ using namespace Aws::Transfer;
 
 
 static const char* FILENAME = "big.file";
-//static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
-//static const char* CONTENT = "This is a sample content";
+
+//create a random string to seed our object keys with
+
+static const char alphanum[] =
+"0123456789"
+"!@#$%^&*"
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"abcdefghijklmnopqrstuvwxyz";
+
+int stringLength = sizeof(alphanum) - 1;
+
+const char genRandom()
+{
+
+    return alphanum[rand() % stringLength];
+}
+
 
 
 
@@ -66,7 +81,15 @@ int main(int argc,char *argv[]) {
 	 	for ( int x = 0; x < 10; x++) {
 	 		//make our int a string so we can increment keyname
 		    std::string str = std::to_string(x);
-	        char const *KEY = str.c_str();
+		    //prepend random string
+
+
+			string KEY = string(str) + string(genRandum());
+
+			// to use the concatenation in const char* use
+			KEY.c_str()
+	        
+	        //char const *KEY = str.c_str();
 
 
 	 	
