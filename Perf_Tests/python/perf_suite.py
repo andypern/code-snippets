@@ -176,7 +176,7 @@ def upload_file(objKey, bucket, transfer):
 					print "all attempts failed..aborting this transfer"
 					break
 
-def delete_object(bucket,objKey):
+def delete_object(s3client,bucket,objKey):
 	method = 'delete_object'
 	
 	try:
@@ -191,7 +191,7 @@ def delete_object(bucket,objKey):
 
 
 
-def list_objects(bucket, fileprefix):		 
+def list_objects(s3client,bucket, fileprefix):		 
 	#
 	#note that you can only get back up to 1000 keys at a time
 	# so using pagination to try and get them all.
@@ -277,13 +277,14 @@ def main():
 	#
 	#get a list of objects in pages, then blow them away
 	#
+	s3client = make_session()
 
-	objList =  list_objects(bucket, fileprefix)
+	objList =  list_objects(s3client,bucket, fileprefix)
 
 	count = 0
 	for page in objList:
 			for key in page['Contents']:
-				delete_object(bucket,key['Key'])
+				delete_object(s3client,bucket,key['Key'])
 				count += 1
 
 
