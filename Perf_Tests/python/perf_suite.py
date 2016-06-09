@@ -182,8 +182,8 @@ def main():
 	try:
 		fd = open (inputfile, 'r')
 		file.close()
-	except:
-		print'couldnt open %s' %(inputfile)
+	except IOError as e:
+		print'couldnt open %s : %s' %(inputfile,e)
 		sys.exit(0)
 
 	ts = time.time()
