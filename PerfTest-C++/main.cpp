@@ -27,7 +27,7 @@ using namespace Aws::Transfer;
 static const char* FILENAME = "big.file";
 static const char* KEY = "big.file";
 static const char* BUCKET = "apcontainer";
-static const char* CONTENT = "This is a sample content";
+//static const char* CONTENT = "This is a sample content";
 
 
 
@@ -79,7 +79,7 @@ int main() {
 	//end our timer
 	auto end = get_time::now();
 	auto diff = end - start;
-	std::cout <<"Elapsed: " << chrono::duration_cast<ns>(diff).count()<<""
+	std::cout <<"Elapsed time is :  "<< chrono::duration_cast<ns>(diff).count()<<" ns "<<endl;
 	if(putObjectOutcome.IsSuccess()) {
 		std::cout << "Putting to '" << BUCKET << "/" << KEY << "' succeeded" << std::endl;
 	} else {
