@@ -70,7 +70,8 @@ char genRandom(int stringLength)
     pos = ((rand() % (str.size() - 1)));
     str.erase (pos, 1);
    }
-   return str;
+   stringtopass = str.c_str();
+   return stringtopass;
 }
 
 
