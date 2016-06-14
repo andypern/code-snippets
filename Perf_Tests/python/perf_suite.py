@@ -26,6 +26,7 @@ from datetime import datetime
 # * make more generic (allow for reads, writes, lists, metadata ops)
 # * build in a ramper
 # * use /dev/zero or similar instead of a file
+# * have crtl-c interrupt hung threads
 # 
 
 
@@ -115,7 +116,9 @@ class UploadWorker(Thread):
 
 def make_session():
 
+
 	session = boto3.session.Session()
+
 
 	client = session.client('s3',
 			aws_access_key_id = access_key,
