@@ -108,7 +108,7 @@ class fileUploader(Process):
         
         while True:
             next_task = self.file_queue.get()
-            print("{}: Queue String: {}".format(proc_name,next_task))
+            #print("{}: Queue String: {}".format(proc_name,next_task))
         
             if next_task is None:
                 self.file_queue.task_done()
@@ -163,7 +163,6 @@ def make_session(endpoint,access_key,secret_key):
 
 def upload_file(bucket, objKey, transfer):
 
-    print "%s in upload_file" %(objKey)
     local_start_time = time.time()
     try:    
         response = transfer.upload_file(
