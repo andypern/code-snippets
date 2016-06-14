@@ -22,7 +22,6 @@ import logging
 
 
 from multiprocessing import Process, JoinableQueue, Queue
-from progressbar import ProgressBar, SimpleProgress
 
 
 
