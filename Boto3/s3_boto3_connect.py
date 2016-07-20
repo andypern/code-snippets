@@ -9,76 +9,35 @@ import boto3
 
 import os
 import sys
-import getopt
 from botocore.exceptions import ClientError
+import ConfigParser
+import argparse
 
-session = boto3.session.Session()
 
-###############
-# some variables need to be set. 
+
+
+###Functions
 #
-#currently only http is supported (not https)
-prefix = 'http://'
-
 #
-# end of variables
-##################
-
-
-print_verbose = False
-
-#
-#provide some CLI options.  
 #
 
-try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:p:a:s:v", ["host=","port=","access_key=",
-        	"secret_key","verbose"])
-except getopt.GetoptError as err:
-        # print help information and exit:
-        print(err) # will print something like "option -a not recognized"
-        print "wrong option"
-        sys.exit(2)
+	#
+	#build the client session. 
+	#
 
 
-for opt, arg in opts:
-	if opt in ('-h', '--host'):
-		host = arg
-	if opt in ('-p', '--port'):
-		port = arg
-	if opt in ('-a', '--access_key'):
-		access_key = arg
-	if opt in ('-s','--secret_key'):
-		secret_key = arg
-	if opt in ('-v', '--verbose'):
-		print_verbose = True
-
-
-
-
-if len(opts) < 4:
-	print "syntax is `./s3_boto3_connect.py -h <hostname> -p 80 -a <access_key> -s <secret_key>`"
-	sys.exit(1)
-
-
-#
-#build the client session. 
-#
-
-
-def make_session():
+def make_session(endpoint,accessKey,secret_key,use_ssl):
 
 	session = boto3.session.Session()
-	endpoint_url= prefix + host + ':' + port
 
 	
 	s3client = session.client('s3',
-			aws_access_key_id = access_key,
-	        aws_secret_access_key = secret_key,
-			endpoint_url= prefix + host + ':' + port,
+			aws_access_key_id = accessKey,
+	        aws_secret_access_key = secretKey,
+			endpoint_url=endpoint,
 			#region_name is needed for s3v4. can be pretend.
 			region_name="iggy-1",
-			use_ssl=False,
+			use_ssl=use_ssl,
 			verify=False,
 			config=boto3.session.Config(
 				#set signature_version to either s3 or s3v4
@@ -93,17 +52,57 @@ def make_session():
 	return s3client
 
 
-s3client = make_session()
+def getArgs():
+
+	parser = argparse.ArgumentParser(description = "connect and list buckets")
+
+	parser.add_argument('-a', '--access_key', dest="accessKey",
+	help = "Igneous access key")
+
+	parser.add_argument('-s','--secret_key', dest="secretKey",
+	help = "Igneous secret key")
+
+	parser.add_argument('-e', '--endpoint',
+	help = "Igneous endpoint, eg: http://igneous.company.com:80")
 
 
-try:
-	response = s3client.list_buckets()
-except ClientError as e:
-	print e.message
-	sys.exit(0)
+	parser.add_argument('-u', '--use_ssl',
+	dest='use_ssl',
+	default=False,
+	help = "use ssl..or not, default is not")
+
+
+
+	args =  parser.parse_args()
+
+
+
+	return args.endpoint,args.accessKey,args.secretKey,args.use_ssl
 
 
 #
-# just dump the dictionary of buckets from the response.
 #
-print response['Buckets']
+#
+#####End Functions
+
+if __name__ == "__main__":
+
+	endpoint,accessKey,secretKey,use_ssl = getArgs()
+
+
+	s3client = make_session(endpoint,accessKey,secretKey,use_ssl)
+
+
+	try:
+		response = s3client.list_buckets()
+	except ClientError as e:
+		print e.message
+		sys.exit(0)
+
+
+	#
+	# Just print list of bucket names
+	#
+	for bucket in response['Buckets']:
+		print bucket['Name']
+		
